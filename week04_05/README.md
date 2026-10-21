@@ -110,15 +110,4 @@ The benchmark's adaptive tile selection uses a power-of-two tile large enough fo
 4. Add broader correctness cases, including varied prompts and cache lengths.
 5. Record dependency versions and exact Modal image configuration for reproducibility.
 
-## Submission checklist
 
-- [ ] Active kernel and integration scripts
-- [ ] SQLite reference database and validation scripts
-- [ ] Final benchmark script and `batched_qwen3_matrix_results.csv`
-- [ ] Diagnostic logs or summary of correctness limitations
-- [ ] Final results report, if required by the assignment
-- [ ] This README
-
-## Summary
-
-The project demonstrates a working CUDA Tile attention integration for Qwen3-4B, successful reference attention tests, and matching greedy generated tokens across the tested benchmark matrix. Performance is competitive only for some shorter configurations; longer sequences are substantially slower than SDPA. Full-model logit tolerance is **not yet satisfied** and is reported transparently.
