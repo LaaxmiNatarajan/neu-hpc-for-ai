@@ -1,6 +1,5 @@
 # Matrix Multiplication: Single-Threaded vs. Multi-Threaded (Pthreads)
-
-A simple, optimized C project that compares standard single-threaded matrix multiplication against a multi-threaded implementation using POSIX threads (`pthreads`). It runs tests across different matrix shapes and measures speedup up to 128 threads in the cloud using [Modal](https://modal.com).
+C program comparing standard single-threaded matrix multiplication with a multi-threaded implementation using POSIX threads (`pthreads`). It runs tests across different matrix shapes and measures speedup up to 128 threads in the cloud using Modal
 
 
 ## Project Structure
@@ -19,7 +18,8 @@ A simple, optimized C project that compares standard single-threaded matrix mult
 ├── run_modal.py          # Script to run everything on Modal cloud
 └── README.md
 
-Test Cases CoveredThe test suite in tests/test_matrix.c runs each test case against 1, 2, 4, 8, and 16 threads to make sure multi-threading produces the exact same results as single-threading:
+Test Cases Covered:
+The test suite in tests/test_matrix.c runs each test case against 1, 2, 4, 8, and 16 threads to make sure multi-threading produces the exact same results as single-threading:
 
 Scalar (1 × 1 × 1): Single number multiplication; checks boundary loop handling.
 Dot Product (1 × 50 × 1): Vector dot product reducing across dimension $K$ to a single number.
