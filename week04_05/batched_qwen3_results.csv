@@ -1,0 +1,5 @@
+batch,prefill_tokens,new_tokens,status,token_match,prefill_logit_max_error,prefill_logit_mean_error,sdpa_prefill_ms,cutile_prefill_ms,sdpa_decode_ms,cutile_decode_ms,sdpa_total_ms,cutile_total_ms,sdpa_tokens_per_s,cutile_tokens_per_s,speedup_vs_sdpa,sdpa_peak_allocated_gib,cutile_peak_allocated_gib,cutile_calls_all_runs,sdpa_fallbacks_all_runs
+1,128,16,TOKEN_MATCH,True,9.375,0.86749023,39.594,41.534,546.798,555.536,586.928,597.07,27.261,26.798,0.983,7.609,7.609,2880,0
+2,128,16,TOKEN_MATCH,True,13.00195312,1.4084481,39.862,40.906,561.352,554.261,601.214,596.273,53.226,53.667,1.008,7.664,7.666,2880,0
+4,128,16,TOKEN_MATCH,True,2.46875,0.33136818,39.293,51.418,538.439,583.424,577.437,634.683,110.835,100.838,0.91,7.775,7.777,2880,0
+8,128,16,TOKEN_MATCH,True,6.375,0.64914572,53.542,93.557,534.495,542.066,588.038,635.262,217.673,201.492,0.926,8.017,8.025,2880,0
