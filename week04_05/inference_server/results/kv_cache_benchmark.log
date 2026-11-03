@@ -1,0 +1,72 @@
+✓ Initialized. View run at https://modal.com/apps/neu-info5100-oak-spr-2025/main/ap-iiBn2ZNi3qy5uGd5hdoOmt
+✓ Created objects.
+├── 🔨 Created mount /home/laaxmi/HPC/neu-hpc-for-ai/week04_05/benchmark_kv_cache.py
+├── 🔨 Created mount kv_cache.py
+└── 🔨 Created function benchmark.
+Transformers: 5.20.2
+Model: Qwen/Qwen3-0.6B
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+[1ALoading weights:   0%|          | 0/311 [00:00<?, ?it/s]
+[1ALoading weights: 100%|██████████| 311/311 [00:00<00:00, 4037.35it/s]
+
+========== NONE ==========
+Repeat 1: prefill=26.59 ms, decode=6826.84 ms, total=6853.43 ms, throughput=37.35 tok/s
+Repeat 2: prefill=26.30 ms, decode=6823.19 ms, total=6849.49 ms, throughput=37.38 tok/s
+Repeat 3: prefill=27.44 ms, decode=6847.87 ms, total=6875.32 ms, throughput=37.23 tok/s
+
+========== DYNAMIC ==========
+Repeat 1: prefill=28.59 ms, decode=6776.50 ms, total=6805.08 ms, throughput=37.62 tok/s
+Repeat 2: prefill=28.78 ms, decode=6870.22 ms, total=6899.00 ms, throughput=37.11 tok/s
+Repeat 3: prefill=28.35 ms, decode=7101.32 ms, total=7129.68 ms, throughput=35.91 tok/s
+
+========== CUSTOM ==========
+Repeat 1: prefill=30.46 ms, decode=6988.65 ms, total=7019.11 ms, throughput=36.47 tok/s
+Repeat 2: prefill=29.10 ms, decode=6986.62 ms, total=7015.72 ms, throughput=36.49 tok/s
+Repeat 3: prefill=28.64 ms, decode=6906.65 ms, total=6935.29 ms, throughput=36.91 tok/s
+
+========== PERFORMANCE SUMMARY ==========
+none       | prefill=    26.78 ms | decode=  6832.63 ms | total=  6859.41 ms | throughput=   37.32 tok/s
+dynamic    | prefill=    28.57 ms | decode=  6916.01 ms | total=  6944.59 ms | throughput=   36.88 tok/s
+custom     | prefill=    29.40 ms | decode=  6960.64 ms | total=  6990.04 ms | throughput=   36.62 tok/s
+
+========== GREEDY OUTPUT COMPARISON ==========
+dynamic matches no-cache: False
+custom matches no-cache: False
+
+========== TEACHER-FORCED VALIDATION ==========
+Step 01 | dynamic | max_logit_error=0.00000000 | top1_match=True
+Step 01 | custom  | max_logit_error=0.00000000 | top1_match=True
+Step 01 | dynamic-vs-custom | max_error=0.00000000 | top1_match=True
+Step 02 | dynamic | max_logit_error=0.18750000 | top1_match=True
+Step 02 | custom  | max_logit_error=0.18750000 | top1_match=True
+Step 02 | dynamic-vs-custom | max_error=0.00000000 | top1_match=True
+Step 03 | dynamic | max_logit_error=0.18750000 | top1_match=True
+Step 03 | custom  | max_logit_error=0.18750000 | top1_match=True
+Step 03 | dynamic-vs-custom | max_error=0.00000000 | top1_match=True
+Step 04 | dynamic | max_logit_error=0.18750000 | top1_match=True
+Step 04 | custom  | max_logit_error=0.18750000 | top1_match=True
+Step 04 | dynamic-vs-custom | max_error=0.00000000 | top1_match=True
+Step 05 | dynamic | max_logit_error=0.18750000 | top1_match=True
+Step 05 | custom  | max_logit_error=0.18750000 | top1_match=True
+Step 05 | dynamic-vs-custom | max_error=0.00000000 | top1_match=True
+Step 32 | dynamic | max_logit_error=0.25000000 | top1_match=True
+Step 32 | custom  | max_logit_error=0.25000000 | top1_match=True
+Step 32 | dynamic-vs-custom | max_error=0.00000000 | top1_match=True
+
+========== VALIDATION SUMMARY ==========
+dynamic  | max_error=0.46875000 | top1 agreement=32/32
+         cache length=47
+custom   | max_error=0.46875000 | top1 agreement=32/32
+         cache length=47
+
+Teacher-forced validation completed.
+
+Dynamic vs Custom maximum logit error: 0.0
+Dynamic vs Custom top-1 agreement: 32/32
+
+Custom cache allocated memory: 224.0 MiB
+
+BENCHMARK COMPLETED
+Stopping app - local entrypoint completed.
+✓ App completed. View run at https://modal.com/apps/neu-info5100-oak-spr-2025/main/ap-iiBn2ZNi3qy5uGd5hdoOmt
