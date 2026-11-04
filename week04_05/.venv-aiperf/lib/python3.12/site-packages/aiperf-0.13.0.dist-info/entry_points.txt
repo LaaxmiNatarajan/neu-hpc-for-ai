@@ -1,0 +1,5 @@
+[console_scripts]
+aiperf = aiperf.cli:app
+
+[aiperf.plugins]
+aiperf = aiperf.plugin:plugins.yaml
