@@ -1,0 +1,128 @@
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Any
+
+from aiperf.common.exceptions import DatasetLoaderError
+from aiperf.common.models import Audio, Conversation, Text, Turn
+from aiperf.dataset.loader.base_hf_dataset import BaseHFDatasetLoader
+
+if TYPE_CHECKING:
+    from aiperf.config.resolution.plan import BenchmarkRun
+
+
+class HFInstructionResponseDatasetLoader(BaseHFDatasetLoader):
+    """HuggingFace dataset loader for flat instruction/response datasets.
+
+    Converts datasets with a flat prompt column into single-turn AIPerf Conversations.
+    Optionally attaches an image per row when image_column is configured.
+
+    Example plugins.yaml entry::
+
+        aimo:
+          class: aiperf.dataset.loader.hf_instruction_response:HFInstructionResponseDatasetLoader
+          metadata:
+            hf_dataset_name: AI-MO/NuminaMath-TIR
+            prompt_column: problem
+
+        mmstar:
+          class: aiperf.dataset.loader.hf_instruction_response:HFInstructionResponseDatasetLoader
+          metadata:
+            hf_dataset_name: Lin-Chen/MMStar
+            hf_split: val
+            prompt_column: question
+            image_column: image
+    """
+
+    def __init__(
+        self,
+        *,
+        run: BenchmarkRun | None = None,
+        prompt_column: str,
+        image_column: str | None = None,
+        video_column: str | None = None,
+        audio_column: str | None = None,
+        prompt_template: str | None = None,
+        **kwargs,
+    ) -> None:
+        self.prompt_column = prompt_column
+        self.image_column = image_column
+        self.video_column = video_column
+        self.audio_column = audio_column
+        self.prompt_template = prompt_template
+        super().__init__(run=run, **kwargs)
+
+    async def convert_to_conversations(
+        self, data: dict[str, Any]
+    ) -> list[Conversation]:
+        """Convert each dataset row into a single-turn Conversation."""
+        dataset = data["dataset"]
+        conversations = []
+        skipped = 0
+        max_conversations = self._max_conversations()
+
+        column_validated = False
+        for row in dataset:
+            if (
+                max_conversations is not None
+                and len(conversations) >= max_conversations
+            ):
+                break
+
+            if not column_validated:
+                column_validated = True
+                if self.prompt_template is None and self.prompt_column not in row:
+                    raise DatasetLoaderError(
+                        f"Column '{self.prompt_column}' not found in dataset "
+                        f"'{self.hf_dataset_name}'. Available columns: {list(row.keys())}. "
+                        f"Set 'prompt_column' to an existing column or provide a "
+                        f"'prompt_template' that references the available columns."
+                    )
+
+            if self.prompt_template is not None:
+                prompt = self.prompt_template.format(**row)
+            else:
+                prompt = row.get(self.prompt_column)
+            if not prompt or not str(prompt).strip():
+                skipped += 1
+                continue
+
+            images = (
+                self._extract_images(row, self.image_column)
+                if self.image_column
+                else []
+            )
+            videos = (
+                self._extract_videos(row, self.video_column)
+                if self.video_column
+                else []
+            )
+            audios: list[Audio] = (
+                self._extract_audio(row, self.audio_column) if self.audio_column else []
+            )
+
+            conversations.append(
+                Conversation(
+                    session_id=self.session_id_generator.next(),
+                    turns=[
+                        Turn(
+                            texts=[Text(contents=[str(prompt)])],
+                            images=images,
+                            videos=videos,
+                            audios=audios,
+                        )
+                    ],
+                )
+            )
+
+        if skipped > 0 and not conversations:
+            self.warning(
+                f"All {skipped} rows were skipped — no conversations loaded. "
+                f"Check that '{self.prompt_column}' contains valid data."
+            )
+        self.debug(
+            lambda: f"Converted {len(conversations)} rows (skipped {skipped} empty)"
+        )
+        return conversations

@@ -1,0 +1,102 @@
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+from __future__ import annotations
+
+import re
+from typing import TYPE_CHECKING, Any
+
+from aiperf.accuracy.graders._choice_extract import extract_choice_letter
+from aiperf.accuracy.graders.base import BaseGrader
+from aiperf.accuracy.models import GradingResult
+
+if TYPE_CHECKING:
+    from aiperf.config.resolution.plan import BenchmarkRun
+
+# Matches a lone A-D letter not adjacent to a word character, e.g. "B.", "**B**", "(B)", "answer is B".
+_LETTER_RE = re.compile(r"(?<!\w)([A-D])(?!\w)")
+
+_VALID_CHOICES = frozenset({"A", "B", "C", "D"})
+
+
+class MultipleChoiceGrader(BaseGrader):
+    """Grades multiple-choice responses using lighteval's ExactMatches approach.
+
+    Ported from lighteval ExactMatches(strip_strings=True):
+    both the gold label and model prediction are stripped, then compared
+    with direct string equality.
+
+    lighteval uses stop_sequence=["\\n"] for MMLU, so the model output is
+    truncated at the first newline before comparison. We replicate this by
+    splitting on "\\n" and taking only the first line.
+
+    When the first-line result is not a bare A-D letter (e.g. "The answer is B."),
+    a regex fallback extracts the first lone A-D letter. Responses that required
+    the fallback are flagged as unparsed in GradingResult.
+
+    Matching:
+    - Gold: choices[gold_index] e.g. " A" -> stripped to "A"
+    - Pred: extracted answer e.g. " B\\n\\nQuestion:" -> "B"
+    - Score: 1 if gold == pred else 0
+    """
+
+    def __init__(self, run: BenchmarkRun, **kwargs: Any) -> None:
+        super().__init__(run=run, **kwargs)
+
+    def _extract_with_flag(self, response_text: str) -> tuple[str, bool]:
+        """Return (answer, unparsed). unparsed=True when a fallback past the
+        clean bare-letter first line was used.
+
+        Order matters for chain-of-thought output. A bare-letter first line
+        (non-CoT lighteval parity) wins first. Otherwise the explicit
+        ``"The answer is (X)"`` signal (tier 1 of the shared cascade) is tried
+        BEFORE the first-line lone-letter regex: CoT reasoning routinely echoes
+        the option list (e.g. ``"A. 0, B. 4, C. 2, D. 6"``) on its first line,
+        and the old first-line-regex-first order grabbed that echoed option
+        label instead of the model's actual answer.
+        """
+        first_line = response_text.split("\n", 1)[0].strip()
+        if first_line in _VALID_CHOICES:
+            return first_line, False
+        letter, tier = extract_choice_letter(response_text, "ABCD")
+        # Explicit CoT answer statement anywhere in the response. This IS the
+        # requested answer format, so it is a clean parse (not unparsed).
+        if letter and tier == 1:
+            return letter, False
+        # An explicit "Answer: X" anywhere (tier 2) also beats the first-line
+        # lone-letter regex, which would otherwise grab an option label echoed
+        # in the reasoning (e.g. "A. 0, B. 4, ..." then a final "Answer: B").
+        if letter and tier == 2:
+            return letter, True
+        # Legacy first-line lone-letter fallback (messy non-CoT output).
+        m = _LETTER_RE.search(first_line)
+        if m:
+            return m.group(1), True
+        # Whole-text last-lone-letter (tier 3, last resort).
+        if letter:
+            return letter, True
+        return first_line, True
+
+    def extract_answer(self, response_text: str, **kwargs: Any) -> str:
+        """Extract the answer: take first line, strip; fall back to regex for non-conforming output."""
+        answer, _ = self._extract_with_flag(response_text)
+        return answer
+
+    async def grade(
+        self, response_text: str, ground_truth: str, **kwargs: Any
+    ) -> GradingResult:
+        pred, unparsed = self._extract_with_flag(response_text)
+        gold = ground_truth.strip()
+        correct = pred == gold and pred != ""
+        return GradingResult(
+            correct=correct,
+            unparsed=unparsed,
+            confidence=1.0 if correct else 0.0,
+            reasoning=(
+                f"first-line-of-response extracted to '{pred}'"
+                + (" (regex fallback)" if unparsed else "")
+                + f"; ground_truth stripped to '{gold}'; match={correct}"
+            ),
+            extracted_answer=pred,
+            ground_truth=gold,
+        )

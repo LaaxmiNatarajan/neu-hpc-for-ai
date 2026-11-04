@@ -1,0 +1,283 @@
+2026-11-03 20:31:26.546 - GPUTelemetryJSONLWriter_c008e68a - INFO - GPU telemetry export enabled: /home/laaxmi/HPC/neu-hpc-for-ai/week04_05/artifacts/custom-c1/gpu_telemetry_export.jsonl
+2026-11-03 20:31:26.563 - OTelMetricsResultsProcessor_8a224f72 - INFO - Telemetry streaming is disabled (set --otel-url and/or --mlflow-tracking-uri to enable)
+2026-11-03 20:31:26.565 - RecordExportJSONLWriter_fde41587 - INFO - Record metrics export enabled: /home/laaxmi/HPC/neu-hpc-for-ai/week04_05/artifacts/custom-c1/profile_export.jsonl
+2026-11-03 20:31:26.570 - _ServiceRegistry - INFO - Registered: Worker_Manager ('worker_manager') [0/0]
+2026-11-03 20:31:26.573 - system_controller - INFO - Registered Worker Manager (id: 'worker_manager')
+2026-11-03 20:31:26.604 - _ServiceRegistry - INFO - Registered: Dataset_Manager ('dataset_manager') [0/0]
+2026-11-03 20:31:26.605 - system_controller - INFO - Registered Dataset Manager (id: 'dataset_manager')
+2026-11-03 20:31:26.605 - system_controller - INFO - Registered Worker Manager (id: 'worker_manager')
+2026-11-03 20:31:26.606 - _ServiceRegistry - INFO - Registered: Gpu_Telemetry_Manager ('gpu_telemetry_manager') [0/0]
+2026-11-03 20:31:26.606 - system_controller - INFO - Registered Gpu Telemetry Manager (id: 'gpu_telemetry_manager')
+2026-11-03 20:31:26.623 - _ServiceRegistry - INFO - Registered: Records_Manager ('records_manager') [0/0]
+2026-11-03 20:31:26.624 - system_controller - INFO - Registered Records Manager (id: 'records_manager')
+2026-11-03 20:31:26.624 - system_controller - INFO - Registered Records Manager (id: 'records_manager')
+2026-11-03 20:31:26.634 - server_metrics_manager - INFO - Server Metrics: Discovered 1 endpoints: ['https://neu-info5100-oak-spr-2025--qwen3-openai-inference-server-serve.us-east.modal.run/metrics']
+2026-11-03 20:31:26.644 - _ServiceRegistry - INFO - Registered: Record_Processor ('record_processor_358790d4') [0/0]
+2026-11-03 20:31:26.644 - system_controller - INFO - Registered Record Processor (id: 'record_processor_358790d4')
+2026-11-03 20:31:26.644 - _ServiceRegistry - INFO - Registered: Server_Metrics_Manager ('server_metrics_manager') [0/0]
+2026-11-03 20:31:26.644 - system_controller - INFO - Registered Server Metrics Manager (id: 'server_metrics_manager')
+2026-11-03 20:31:26.713 - system_controller - INFO - Registered Gpu Telemetry Manager (id: 'gpu_telemetry_manager')
+2026-11-03 20:31:26.797 - system_controller - INFO - Registered Server Metrics Manager (id: 'server_metrics_manager')
+2026-11-03 20:31:26.860 - _ServiceRegistry - INFO - Registered: Timing_Manager ('timing_manager') [0/0]
+2026-11-03 20:31:26.861 - system_controller - INFO - Registered Timing Manager (id: 'timing_manager')
+2026-11-03 20:31:26.874 - system_controller - INFO - Registered Timing Manager (id: 'timing_manager')
+2026-11-03 20:31:26.948 - _ServiceRegistry - INFO - Registered: Worker ('worker_1e328142') [0/0]
+2026-11-03 20:31:26.948 - system_controller - INFO - Registered Worker (id: 'worker_1e328142')
+2026-11-03 20:31:27.023 - system_controller - INFO - Registered Worker (id: 'worker_1e328142')
+2026-11-03 20:31:27.046 - system_controller - INFO - System state: initializing -> configuring
+2026-11-03 20:31:27.047 - system_controller - INFO - AIPerf System is CONFIGURING
+2026-11-03 20:31:27.047 - system_controller - INFO - Configuring all services to start profiling
+2026-11-03 20:31:27.048 - timing_manager - INFO - Waiting for dataset to be configured before configuring timing
+2026-11-03 20:31:27.048 - InferenceResultParser_692a155d - INFO - Configuring tokenizers for inference result parser (resolve_alias: True)
+2026-11-03 20:31:27.050 - dataset_manager - INFO - Configuring tokenizer(s) for dataset manager
+2026-11-03 20:31:27.082 - gpu_telemetry_manager - WARNING - GPU Telemetry: http://localhost:9400/metrics is not reachable
+2026-11-03 20:31:27.086 - gpu_telemetry_manager - WARNING - GPU Telemetry: http://localhost:9401/metrics is not reachable
+2026-11-03 20:31:27.087 - system_controller - INFO - DCGM telemetry skipped: no telemetry sources reachable
+2026-11-03 20:31:27.275 - server_metrics_manager - INFO - Server Metrics: Capturing baseline metrics...
+2026-11-03 20:31:27.394 - https://neu-info5100-oak-spr-2025--qwen3-openai-inference-server-serve.us-east.modal.run/metrics - INFO - Endpoint 'https://neu-info5100-oak-spr-2025--qwen3-openai-inference-server-serve.us-east.modal.run/metrics' returned non-Prometheus content; probing fallback 'https://neu-info5100-oak-spr-2025--qwen3-openai-inference-server-serve.us-east.modal.run/prometheus/metrics' (TRT-LLM compatibility path).
+2026-11-03 20:31:27.501 - https://neu-info5100-oak-spr-2025--qwen3-openai-inference-server-serve.us-east.modal.run/metrics - WARNING - Disabling server metrics collection for https://neu-info5100-oak-spr-2025--qwen3-openai-inference-server-serve.us-east.modal.run/metrics: Prometheus fallback 'https://neu-info5100-oak-spr-2025--qwen3-openai-inference-server-serve.us-east.modal.run/prometheus/metrics' also failed (ClientResponseError(RequestInfo(url=URL('https://neu-info5100-oak-spr-2025--qwen3-openai-inference-server-serve.us-east.modal.run/prometheus/metrics'), method='GET', headers=<CIMultiDictProxy('Host': 'neu-info5100-oak-spr-2025--qwen3-openai-inference-server-serve.us-east.modal.run', 'Accept': '*/*', 'Accept-Encoding': 'gzip, deflate, br', 'User-Agent': 'Python/3.12 aiohttp/3.14.5')>, real_url=URL('https://neu-info5100-oak-spr-2025--qwen3-openai-inference-server-serve.us-east.modal.run/prometheus/metrics')), (), status=404, message='Not Found', headers=<CIMultiDictProxy('Alt-Svc': 'h3=":443"; ma=2592000', 'Content-Length': '22', 'Content-Type': 'application/json', 'Date': 'Wed, 04 Nov 2026 01:31:27 GMT', 'Modal-Function-Call-Id': 'fc-01M6J2XDTTD71QJY84AW9TBWMX', 'Vary': 'accept-encoding')>)); original endpoint 'https://neu-info5100-oak-spr-2025--qwen3-openai-inference-server-serve.us-east.modal.run/metrics' returned non-Prometheus content. For TRT-LLM, set 'return_perf_metrics: true' in extra_llm_api_options.yaml to enable Prometheus exposition at /prometheus/metrics.. To suppress this warning, pass --no-server-metrics.
+2026-11-03 20:31:27.503 - system_controller - INFO - Server metrics enabled - 1/1 endpoint(s) reachable.
+2026-11-03 20:31:28.229 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3-4B/revision/main "HTTP/1.1 200 OK"
+2026-11-03 20:31:28.246 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3-4B/revision/main "HTTP/1.1 200 OK"
+2026-11-03 20:31:28.278 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3-4B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-11-03 20:31:28.293 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3-4B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-11-03 20:31:28.315 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3-4B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-11-03 20:31:28.368 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3-4B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-11-03 20:31:28.826 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3-4B "HTTP/1.1 200 OK"
+2026-11-03 20:31:28.827 - InferenceResultParser_692a155d - INFO - Initialized tokenizers: {'Qwen/Qwen3-4B': {'class': 'Qwen2Tokenizer', 'name_or_path': 'Qwen/Qwen3-4B'}} in 1.78 seconds
+2026-11-03 20:31:28.873 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3-4B "HTTP/1.1 200 OK"
+2026-11-03 20:31:28.875 - dataset_manager - INFO - Tokenizer(s) configured in 1.82 seconds
+2026-11-03 20:31:28.876 - dataset_manager - INFO - Configuring dataset for dataset_manager
+2026-11-03 20:31:29.677 - MemoryMapDatasetBackingStore_f87a2eab - INFO - Memory-mapped backing store initialized (streaming to /tmp/aiperf_mmap_a20bce80be1d/dataset.dat)
+2026-11-03 20:31:29.683 - MemoryMapDatasetBackingStore_f87a2eab - INFO - Data file finalized: 50 conversations, 0.07 MB
+2026-11-03 20:31:29.683 - MemoryMapDatasetBackingStore_f87a2eab - INFO - Index file created: /tmp/aiperf_mmap_a20bce80be1d/index.dat
+2026-11-03 20:31:29.683 - dataset_manager - INFO - Backing store finalized: client_type=DatasetClientStoreType.MEMORY_MAP format=MemoryMapFormat.CONVERSATION data_file_path=PosixPath('/tmp/aiperf_mmap_a20bce80be1d/dataset.dat') index_file_path=PosixPath('/tmp/aiperf_mmap_a20bce80be1d/index.dat') conversation_count=50 total_size_bytes=74137 compressed=False compressed_data_file_path=None compressed_index_file_path=None compressed_size_bytes=0
+2026-11-03 20:31:29.684 - dataset_manager - INFO - sampling strategy: sequential, unique conversations: 50, unique turn count: 50
+2026-11-03 20:31:29.685 - dataset_manager - INFO - Generating inputs.json file at /home/laaxmi/HPC/neu-hpc-for-ai/week04_05/artifacts/custom-c1/inputs.json
+2026-11-03 20:31:29.691 - dataset_manager - INFO - inputs.json file generated in 0.01 seconds
+2026-11-03 20:31:29.696 - PhaseOrchestrator_eb8a5aaa - INFO - Initialized 1 phase(s): ['Profiling']
+2026-11-03 20:31:29.836 - dataset_manager - INFO - Dataset client initialized and freed 50 conversations from memory
+2026-11-03 20:31:29.836 - dataset_manager - INFO - Dataset configured in 0.96 seconds
+2026-11-03 20:31:29.836 - system_controller - INFO - All services configured in 2.79 seconds
+2026-11-03 20:31:29.836 - system_controller - INFO - System state: configuring -> ready
+2026-11-03 20:31:29.836 - system_controller - INFO - AIPerf System is CONFIGURED
+2026-11-03 20:31:29.840 - server_metrics_manager - INFO - Server Metrics: Started 1 collector(s) successfully
+2026-11-03 20:31:29.841 - system_controller - INFO - All services started profiling successfully
+2026-11-03 20:31:29.841 - system_controller - INFO - System state: ready -> profiling
+2026-11-03 20:31:29.841 - system_controller - INFO - AIPerf System is PROFILING
+2026-11-03 20:31:29.841 - system_controller - INFO - Waiting for result domains: profile, server_metrics
+2026-11-03 20:31:29.842 - RateTiming - INFO - Creating interval generator: pattern=concurrency_burst, rate=None, smoothness=None
+2026-11-03 20:31:29.842 - PhaseRunner - NOTICE - Phase profiling (profiling) started | phase_index=0 | profiling_index=0 | target: 50 requests
+2026-11-03 20:31:29.843 - RateTiming - INFO - Rate loop pacing via timerfd (kernel hrtimer)
+2026-11-03 20:31:29.845 - records_manager - INFO - Credit phase start: profiling
+2026-11-03 20:31:56.477 - MultiProcessServiceManager_44871aac - WARNING - Optional service 'gpu_telemetry_manager' (gpu_telemetry_manager) missed heartbeats on 2 consecutive ticks; dropping it and continuing the benchmark without it.
+2026-11-03 20:35:27.530 - PhaseRunner - NOTICE - Phase profiling (profiling) sending complete | sent=50, completed=49, in_flight=1 | sessions: sent=50, completed=49
+2026-11-03 20:35:27.533 - records_manager - INFO - Sent 50 requests. Waiting for all to complete...
+2026-11-03 20:35:32.179 - PhaseRunner - NOTICE - Phase profiling (profiling) complete | completed=50, cancelled=0, errors=0 | sessions: completed=50, cancelled=0 | elapsed=242.34s
+2026-11-03 20:35:32.180 - PhaseOrchestrator_eb8a5aaa - NOTICE - All credits completed
+2026-11-03 20:35:32.182 - records_manager - INFO - Received CREDIT_PHASE_COMPLETE message, Phase complete: PhaseRecordsStats(phase=CreditPhase.PROFILING, phase_index=0, profiling_index=0, phase_name='profiling', phase_kind='profiling', start_ns=1793755889842541483, sent_end_ns=1793756127530521011, requests_end_ns=1793756132179302782, baseline_start_ns=1793755889842524365, baseline_end_ns=1793756132179310321, total_expected_requests=50, expected_duration_sec=None, expected_num_sessions=None, expected_grace_period_sec=None, final_requests_sent=None, final_requests_completed=50, final_requests_cancelled=0, final_request_errors=0, final_sent_sessions=None, final_completed_sessions=None, final_cancelled_sessions=None, timeout_triggered=False, grace_period_timeout_triggered=False, was_cancelled=False, records_end_ns=None, success_records=49, error_records=0)
+2026-11-03 20:35:32.183 - records_manager - NOTICE - All requests have completed, please wait for the results to be processed (currently 49 of 50 records processed)...
+2026-11-03 20:35:32.184 - records_manager - INFO - All credits complete, please wait for the results to be processed...
+2026-11-03 20:35:32.186 - system_controller - INFO - Received credits complete from 'timing_manager'
+2026-11-03 20:35:32.186 - system_controller - INFO - System state: profiling -> processing
+2026-11-03 20:35:32.187 - records_manager - INFO - Processed 50 valid requests and 0 errors (50 total).
+2026-11-03 20:35:32.187 - records_manager - INFO - Received all records, processing now...
+2026-11-03 20:35:32.207 - server_metrics_manager - INFO - Waiting 2.0s for server metrics flush period...
+2026-11-03 20:35:34.180 - server_metrics_manager - INFO - Server Metrics: Profiling complete, capturing final metrics...
+2026-11-03 20:35:34.183 - system_controller - INFO - Waiting for result domains: profile
+2026-11-03 20:35:34.183 - records_manager - INFO - Processing records results...
+2026-11-03 20:35:34.195 - records_manager - INFO - _finalize_and_process_results completed
+2026-11-03 20:35:34.196 - system_controller - INFO - System state: processing -> stopping
+2026-11-03 20:35:34.196 - system_controller - INFO - All results received, initiating shutdown
+2026-11-03 20:35:34.197 - system_controller - INFO - System state: stopping -> shutdown
+2026-11-03 20:35:34.865 - ExporterManager - INFO - Exporting all records
+2026-11-03 20:35:34.922 - ExporterManager - INFO - Exporting console data
+2026-11-03 21:11:36.449 - GPUTelemetryJSONLWriter_6b8dc721 - INFO - GPU telemetry export enabled: /home/laaxmi/HPC/neu-hpc-for-ai/week04_05/artifacts/custom-c1/gpu_telemetry_export.jsonl
+2026-11-03 21:11:36.466 - _ServiceRegistry - INFO - Registered: Gpu_Telemetry_Manager ('gpu_telemetry_manager') [0/0]
+2026-11-03 21:11:36.468 - system_controller - INFO - Registered Gpu Telemetry Manager (id: 'gpu_telemetry_manager')
+2026-11-03 21:11:36.470 - OTelMetricsResultsProcessor_c1465a42 - INFO - Telemetry streaming is disabled (set --otel-url and/or --mlflow-tracking-uri to enable)
+2026-11-03 21:11:36.474 - _ServiceRegistry - INFO - Registered: Worker_Manager ('worker_manager') [0/0]
+2026-11-03 21:11:36.475 - system_controller - INFO - Registered Worker Manager (id: 'worker_manager')
+2026-11-03 21:11:36.477 - system_controller - INFO - Registered Gpu Telemetry Manager (id: 'gpu_telemetry_manager')
+2026-11-03 21:11:36.479 - RecordExportJSONLWriter_0433f3d5 - INFO - Record metrics export enabled: /home/laaxmi/HPC/neu-hpc-for-ai/week04_05/artifacts/custom-c1/profile_export.jsonl
+2026-11-03 21:11:36.502 - _ServiceRegistry - INFO - Registered: Dataset_Manager ('dataset_manager') [0/0]
+2026-11-03 21:11:36.503 - system_controller - INFO - Registered Dataset Manager (id: 'dataset_manager')
+2026-11-03 21:11:36.560 - system_controller - INFO - Registered Dataset Manager (id: 'dataset_manager')
+2026-11-03 21:11:36.564 - system_controller - INFO - Registered Worker Manager (id: 'worker_manager')
+2026-11-03 21:11:36.564 - _ServiceRegistry - INFO - Registered: Records_Manager ('records_manager') [0/0]
+2026-11-03 21:11:36.565 - system_controller - INFO - Registered Records Manager (id: 'records_manager')
+2026-11-03 21:11:36.648 - system_controller - INFO - Registered Records Manager (id: 'records_manager')
+2026-11-03 21:11:36.720 - _ServiceRegistry - INFO - Registered: Record_Processor ('record_processor_39008b0f') [0/0]
+2026-11-03 21:11:36.720 - system_controller - INFO - Registered Record Processor (id: 'record_processor_39008b0f')
+2026-11-03 21:11:36.730 - _ServiceRegistry - INFO - Registered: Timing_Manager ('timing_manager') [0/0]
+2026-11-03 21:11:36.730 - system_controller - INFO - Registered Timing Manager (id: 'timing_manager')
+2026-11-03 21:11:36.732 - system_controller - INFO - Registered Timing Manager (id: 'timing_manager')
+2026-11-03 21:11:36.770 - server_metrics_manager - INFO - Server Metrics: Discovered 1 endpoints: ['https://neu-info5100-oak-spr-2025--qwen3-openai-inference-server-serve.us-east.modal.run/metrics']
+2026-11-03 21:11:36.785 - _ServiceRegistry - INFO - Registered: Server_Metrics_Manager ('server_metrics_manager') [0/0]
+2026-11-03 21:11:36.785 - system_controller - INFO - Registered Server Metrics Manager (id: 'server_metrics_manager')
+2026-11-03 21:11:36.807 - system_controller - INFO - Registered Record Processor (id: 'record_processor_39008b0f')
+2026-11-03 21:11:36.877 - system_controller - INFO - Registered Server Metrics Manager (id: 'server_metrics_manager')
+2026-11-03 21:11:36.925 - _ServiceRegistry - INFO - Registered: Worker ('worker_a6a9c36a') [0/0]
+2026-11-03 21:11:36.925 - system_controller - INFO - Registered Worker (id: 'worker_a6a9c36a')
+2026-11-03 21:11:36.941 - system_controller - INFO - System state: initializing -> configuring
+2026-11-03 21:11:36.941 - system_controller - INFO - AIPerf System is CONFIGURING
+2026-11-03 21:11:36.941 - system_controller - INFO - Configuring all services to start profiling
+2026-11-03 21:11:36.942 - InferenceResultParser_6ae42dfe - INFO - Configuring tokenizers for inference result parser (resolve_alias: True)
+2026-11-03 21:11:36.942 - timing_manager - INFO - Waiting for dataset to be configured before configuring timing
+2026-11-03 21:11:36.943 - dataset_manager - INFO - Configuring tokenizer(s) for dataset manager
+2026-11-03 21:11:36.972 - gpu_telemetry_manager - WARNING - GPU Telemetry: http://localhost:9400/metrics is not reachable
+2026-11-03 21:11:36.975 - gpu_telemetry_manager - WARNING - GPU Telemetry: http://localhost:9401/metrics is not reachable
+2026-11-03 21:11:36.980 - system_controller - INFO - DCGM telemetry skipped: no telemetry sources reachable
+2026-11-03 21:11:37.138 - system_controller - INFO - Registered Worker (id: 'worker_a6a9c36a')
+2026-11-03 21:11:44.935 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3-4B/revision/main "HTTP/1.1 200 OK"
+2026-11-03 21:11:44.974 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3-4B/revision/main "HTTP/1.1 200 OK"
+2026-11-03 21:11:44.987 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3-4B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-11-03 21:11:45.022 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3-4B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-11-03 21:11:45.023 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3-4B/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+2026-11-03 21:11:45.063 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3-4B/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+2026-11-03 21:11:45.746 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3-4B "HTTP/1.1 200 OK"
+2026-11-03 21:11:45.749 - InferenceResultParser_6ae42dfe - INFO - Initialized tokenizers: {'Qwen/Qwen3-4B': {'class': 'Qwen2Tokenizer', 'name_or_path': 'Qwen/Qwen3-4B'}} in 8.81 seconds
+2026-11-03 21:11:45.760 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/Qwen/Qwen3-4B "HTTP/1.1 200 OK"
+2026-11-03 21:11:45.762 - dataset_manager - INFO - Tokenizer(s) configured in 8.82 seconds
+2026-11-03 21:11:45.762 - dataset_manager - INFO - Configuring dataset for dataset_manager
+2026-11-03 21:11:46.929 - MemoryMapDatasetBackingStore_04b55607 - INFO - Memory-mapped backing store initialized (streaming to /tmp/aiperf_mmap_81097ba933ea/dataset.dat)
+2026-11-03 21:11:46.945 - MemoryMapDatasetBackingStore_04b55607 - INFO - Data file finalized: 50 conversations, 0.07 MB
+2026-11-03 21:11:46.947 - MemoryMapDatasetBackingStore_04b55607 - INFO - Index file created: /tmp/aiperf_mmap_81097ba933ea/index.dat
+2026-11-03 21:11:46.947 - dataset_manager - INFO - Backing store finalized: client_type=DatasetClientStoreType.MEMORY_MAP format=MemoryMapFormat.CONVERSATION data_file_path=PosixPath('/tmp/aiperf_mmap_81097ba933ea/dataset.dat') index_file_path=PosixPath('/tmp/aiperf_mmap_81097ba933ea/index.dat') conversation_count=50 total_size_bytes=73654 compressed=False compressed_data_file_path=None compressed_index_file_path=None compressed_size_bytes=0
+2026-11-03 21:11:46.948 - dataset_manager - INFO - sampling strategy: sequential, unique conversations: 50, unique turn count: 50
+2026-11-03 21:11:46.951 - dataset_manager - INFO - Generating inputs.json file at /home/laaxmi/HPC/neu-hpc-for-ai/week04_05/artifacts/custom-c1/inputs.json
+2026-11-03 21:11:46.966 - dataset_manager - INFO - inputs.json file generated in 0.02 seconds
+2026-11-03 21:11:47.004 - PhaseOrchestrator_08d35184 - INFO - Initialized 1 phase(s): ['Profiling']
+2026-11-03 21:11:47.318 - system_controller - INFO - Server metrics disabled - no Prometheus endpoints reachable
+2026-11-03 21:11:47.363 - dataset_manager - INFO - Dataset client initialized and freed 50 conversations from memory
+2026-11-03 21:11:47.364 - dataset_manager - INFO - Dataset configured in 1.60 seconds
+2026-11-03 21:11:47.365 - system_controller - INFO - All services configured in 10.42 seconds
+2026-11-03 21:11:47.366 - system_controller - INFO - System state: configuring -> ready
+2026-11-03 21:11:47.367 - system_controller - INFO - AIPerf System is CONFIGURED
+2026-11-03 21:11:47.377 - system_controller - INFO - All services started profiling successfully
+2026-11-03 21:11:47.378 - system_controller - INFO - System state: ready -> profiling
+2026-11-03 21:11:47.378 - system_controller - INFO - AIPerf System is PROFILING
+2026-11-03 21:11:47.378 - system_controller - INFO - Waiting for result domains: profile
+2026-11-03 21:11:47.391 - RateTiming - INFO - Creating interval generator: pattern=concurrency_burst, rate=None, smoothness=None
+2026-11-03 21:11:47.393 - PhaseRunner - NOTICE - Phase profiling (profiling) started | phase_index=0 | profiling_index=0 | target: 50 requests
+2026-11-03 21:11:47.400 - RateTiming - INFO - Rate loop pacing via timerfd (kernel hrtimer)
+2026-11-03 21:11:47.401 - records_manager - INFO - Credit phase start: profiling
+2026-11-03 21:11:56.565 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'output_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:11:56.565 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'input_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:12:01.635 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'output_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:12:01.636 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'input_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:12:06.639 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'output_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:12:06.639 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'input_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:12:11.645 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'output_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:12:11.646 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'input_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:12:16.360 - MultiProcessServiceManager_e4e58891 - WARNING - Optional service 'gpu_telemetry_manager' (gpu_telemetry_manager) missed heartbeats on 2 consecutive ticks; dropping it and continuing the benchmark without it.
+2026-11-03 21:12:16.360 - MultiProcessServiceManager_e4e58891 - WARNING - Optional service 'server_metrics_manager' (server_metrics_manager) missed heartbeats on 2 consecutive ticks; dropping it and continuing the benchmark without it.
+2026-11-03 21:12:16.649 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'output_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:12:16.649 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'input_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:12:21.651 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'output_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:12:21.652 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'input_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:12:26.653 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'output_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:12:26.654 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'input_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:12:31.657 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'output_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:12:31.657 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'input_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:12:36.661 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'output_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:12:36.661 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'input_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:12:41.664 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'output_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:12:41.664 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'input_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:12:46.669 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'output_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:12:46.671 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'input_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:12:51.676 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'output_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:12:51.677 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'input_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:12:56.681 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'output_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:12:56.681 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'input_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:13:01.687 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'output_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:13:01.687 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'input_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:13:06.690 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'output_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:13:06.690 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'input_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:13:11.693 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'output_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:13:11.694 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'input_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:13:16.702 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'output_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:13:16.702 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'input_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:13:21.707 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'output_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:13:21.707 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'input_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:13:26.710 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'output_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:13:26.711 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'input_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:13:31.716 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'output_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:13:31.716 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'input_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:13:36.720 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'output_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:13:36.721 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'input_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:13:41.725 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'output_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:13:41.725 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'input_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:13:46.730 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'output_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:13:46.731 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'input_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:13:51.737 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'output_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:13:51.738 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'input_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:13:56.741 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'output_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:13:56.741 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'input_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:14:01.743 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'output_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:14:01.743 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'input_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:14:06.747 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'output_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:14:06.747 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'input_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:14:11.755 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'output_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:14:11.755 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'input_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:14:16.759 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'output_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:14:16.759 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'input_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:14:21.765 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'output_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:14:21.765 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'input_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:14:26.786 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'output_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:14:26.786 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'input_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:14:31.788 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'output_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:14:31.789 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'input_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:14:36.790 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'output_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:14:36.790 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'input_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:14:41.796 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'output_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:14:41.796 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'input_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:14:46.800 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'output_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:14:46.800 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'input_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:14:51.802 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'output_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:14:51.803 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'input_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:14:56.808 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'output_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:14:56.808 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'input_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:15:01.811 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'output_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:15:01.812 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'input_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:15:06.816 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'output_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:15:06.816 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'input_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:15:11.819 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'output_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:15:11.819 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'input_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:15:16.822 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'output_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:15:16.822 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'input_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:15:21.825 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'output_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:15:21.825 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'input_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:15:26.827 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'output_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:15:26.828 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'input_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:15:31.830 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'output_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:15:31.831 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'input_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:15:36.833 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'output_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:15:36.833 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'input_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:15:41.838 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'output_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:15:41.838 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'input_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:15:46.840 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'output_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:15:46.841 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'input_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:15:51.843 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'output_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:15:51.843 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'input_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:15:54.852 - PhaseRunner - NOTICE - Phase profiling (profiling) sending complete | sent=50, completed=49, in_flight=1 | sessions: sent=50, completed=49
+2026-11-03 21:15:54.854 - records_manager - INFO - Sent 50 requests. Waiting for all to complete...
+2026-11-03 21:15:56.845 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'output_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:15:56.845 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'input_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:15:59.894 - PhaseRunner - NOTICE - Phase profiling (profiling) complete | completed=50, cancelled=0, errors=50 | sessions: completed=50, cancelled=0 | elapsed=252.50s
+2026-11-03 21:15:59.895 - PhaseOrchestrator_08d35184 - NOTICE - All credits completed
+2026-11-03 21:15:59.900 - system_controller - INFO - Received credits complete from 'timing_manager'
+2026-11-03 21:15:59.900 - system_controller - INFO - System state: profiling -> processing
+2026-11-03 21:15:59.900 - records_manager - INFO - Received CREDIT_PHASE_COMPLETE message, Phase complete: PhaseRecordsStats(phase=CreditPhase.PROFILING, phase_index=0, profiling_index=0, phase_name='profiling', phase_kind='profiling', start_ns=1793758307393204370, sent_end_ns=1793758554852063998, requests_end_ns=1793758559892884643, baseline_start_ns=1793758307393076576, baseline_end_ns=1793758559893803315, total_expected_requests=50, expected_duration_sec=None, expected_num_sessions=None, expected_grace_period_sec=None, final_requests_sent=None, final_requests_completed=50, final_requests_cancelled=0, final_request_errors=50, final_sent_sessions=None, final_completed_sessions=None, final_cancelled_sessions=None, timeout_triggered=False, grace_period_timeout_triggered=False, was_cancelled=False, records_end_ns=None, success_records=0, error_records=50)
+2026-11-03 21:15:59.900 - records_manager - NOTICE - All requests have completed, please wait for the results to be processed (currently 50 of 50 records processed)...
+2026-11-03 21:15:59.901 - records_manager - INFO - All credits complete, please wait for the results to be processed...
+2026-11-03 21:15:59.901 - records_manager - INFO - Processed 0 valid requests and 50 errors (50 total).
+2026-11-03 21:15:59.901 - records_manager - INFO - Received all records, processing now...
+2026-11-03 21:15:59.907 - records_manager - INFO - Processing records results...
+2026-11-03 21:15:59.912 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'output_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:15:59.912 - aiperf.metrics.column_store - WARNING - ColumnStore.numeric: unknown tag 'input_sequence_length' on a non-empty store (known numeric tags: ['context_overflow_count', 'error_isl', 'error_request_count']). Returning NaN-fill — check for a typo or missing ingestion.
+2026-11-03 21:15:59.919 - records_manager - INFO - _finalize_and_process_results completed
+2026-11-03 21:15:59.930 - system_controller - INFO - System state: processing -> stopping
+2026-11-03 21:15:59.930 - system_controller - INFO - All results received, initiating shutdown
+2026-11-03 21:15:59.931 - system_controller - INFO - System state: stopping -> shutdown
+2026-11-03 21:16:00.799 - system_controller - ERROR - All 50 inference request(s) failed; no successful responses were collected.

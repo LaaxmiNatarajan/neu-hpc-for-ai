@@ -1,0 +1,521 @@
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+from typing import TYPE_CHECKING, Any, Literal, TypeVar
+
+from pydantic import ConfigDict, Field, model_validator
+
+from aiperf.common.models import AIPerfBaseModel, Audio, Image, Text, Video
+from aiperf.plugin.enums import CustomDatasetType
+
+if TYPE_CHECKING:
+    from aiperf.dataset.loader.baseten_trace import BasetenTrace
+
+
+def validate_chat_messages(messages: list[dict[str, Any]]) -> None:
+    """Enforce the minimal shape that OpenAI chat-completions messages must have.
+
+    Raises ``ValueError`` if ``messages`` is empty or any entry is not a dict
+    with a ``role`` key. Used by loader models (``MooncakeTrace``, ``DagTurn``)
+    that accept free-form message dicts.
+    """
+    if not messages:
+        raise ValueError("'messages' must be a non-empty list")
+    for i, msg in enumerate(messages):
+        if not isinstance(msg, dict) or "role" not in msg:
+            raise ValueError(
+                f"Each message must have a 'role' key, but message at index {i} does not"
+            )
+
+
+def _has_any_modality(row: Any) -> bool:
+    """True when ``row`` has any of the multimodal content fields populated."""
+    return any(
+        (
+            row.text,
+            row.texts,
+            row.image,
+            row.images,
+            row.audio,
+            row.audios,
+            row.video,
+            row.videos,
+        )
+    )
+
+
+class SingleTurn(AIPerfBaseModel):
+    """Defines the schema for single-turn data.
+
+    User can use this format to quickly provide a custom single turn dataset.
+    Each line in the file will be treated as a single turn conversation.
+
+    The single turn type
+      - supports multi-modal (e.g. text, image, audio, video)
+      - supports client-side batching for each data (e.g. batch_size > 1)
+      - supports optional session_id for causal ordering across entries
+    """
+
+    type: Literal[CustomDatasetType.SINGLE_TURN] = CustomDatasetType.SINGLE_TURN
+
+    # TODO (TL-89): investigate if we only want to support single field for each modality
+    text: str | None = Field(None, description="Simple text string content")
+    texts: list[str] | list[Text] | None = Field(
+        None,
+        description="List of text strings or Text objects format",
+    )
+    image: str | None = Field(None, description="Simple image string content")
+    images: list[str] | list[Image] | None = Field(
+        None,
+        description="List of image strings or Image objects format",
+    )
+    image_uuids: list[str] | None = Field(
+        None,
+        description="Optional cache UUIDs aligned 1:1 with string-form `images`. "
+        "When `images` is omitted, UUID-only references normalize to empty "
+        "image slots. "
+        "Only supported when `images` is `list[str]`; for `Image` objects, "
+        "set `Image.uuids` directly instead. The singular `image` field is "
+        "not supported. "
+        "vLLM-extension only: opaque IDs that let the server reuse cached "
+        "image embeddings across requests. Authored UUIDs pass through on the "
+        "chat endpoint; `--uuid-and-strip` additionally strips repeated content.",
+    )
+    audio: str | None = Field(None, description="Simple audio string content")
+    audios: list[str] | list[Audio] | None = Field(
+        None,
+        description="List of audio strings or Audio objects format",
+    )
+    video: str | None = Field(
+        None,
+        description="Simple video string content. Can be a URL, local file path, or base64 encoded data URL.",
+    )
+    videos: list[str] | list[Video] | None = Field(
+        None,
+        description="List of video strings or Video objects format",
+    )
+    timestamp: int | float | None = Field(
+        default=None,
+        description="Timestamp of the turn in milliseconds. Supports floating point, but scheduling accuracy is at the millisecond level.",
+    )
+    delay: int | float | None = Field(
+        default=None,
+        description="Amount of milliseconds to wait before sending the turn. Supports floating point, but scheduling accuracy is at the millisecond level.",
+    )
+    role: str | None = Field(default=None, description="Role of the turn.")
+    session_id: str | None = Field(
+        default=None,
+        description="Session ID for causal ordering. Entries sharing a session_id "
+        "are sent sequentially. Each entry is self-contained (no history accumulation).",
+    )
+    output_length: int | None = Field(
+        default=None,
+        gt=0,
+        description="Maximum number of output tokens to generate for this request. Overrides the global --osl setting when specified.",
+    )
+    extra: dict[str, Any] | None = Field(
+        default=None,
+        description="Per-turn extra fields shallow-merged into the request body at dispatch time. Keys override formatter defaults on collision.",
+    )
+
+    @model_validator(mode="after")
+    def validate_mutually_exclusive_fields(self) -> "SingleTurn":
+        """Ensure mutually exclusive fields are not set together"""
+        if self.text and self.texts:
+            raise ValueError("text and texts cannot be set together")
+        if self.image and self.images:
+            raise ValueError("image and images cannot be set together")
+        if self.audio and self.audios:
+            raise ValueError("audio and audios cannot be set together")
+        if self.video and self.videos:
+            raise ValueError("video and videos cannot be set together")
+        if self.timestamp and self.delay:
+            raise ValueError("timestamp and delay cannot be set together")
+        return self
+
+    @model_validator(mode="after")
+    def validate_image_uuids_alignment(self) -> "SingleTurn":
+        """Normalize UUID-only images and reject ambiguous UUID mappings."""
+        if self.image_uuids is None:
+            return self
+        if self.image is not None:
+            raise ValueError("image_uuids cannot be used with the singular image field")
+        if not self.images:
+            self.images = [""] * len(self.image_uuids)
+        if any(isinstance(img, Image) for img in self.images):
+            raise ValueError(
+                "image_uuids cannot be set when images is provided as Image "
+                "objects; use Image.uuids on each Image instead."
+            )
+        if len(self.image_uuids) != len(self.images):
+            raise ValueError(
+                f"image_uuids length ({len(self.image_uuids)}) must match "
+                f"images length ({len(self.images)})"
+            )
+        if any(uuid == "" for uuid in self.image_uuids):
+            raise ValueError("image_uuids must not contain empty strings")
+        return self
+
+    @model_validator(mode="after")
+    def validate_at_least_one_modality(self) -> "SingleTurn":
+        """Ensure at least one modality is provided"""
+        if not _has_any_modality(self):
+            raise ValueError("At least one modality must be provided")
+        return self
+
+
+class MultiTurn(AIPerfBaseModel):
+    """Defines the schema for multi-turn conversations.
+
+    The multi-turn custom dataset
+      - supports multi-modal data (e.g. text, image, audio, video)
+      - supports multi-turn features (e.g. delay, sessions, etc.)
+      - supports client-side batching for each data (e.g. batch size > 1)
+    """
+
+    type: Literal[CustomDatasetType.MULTI_TURN] = CustomDatasetType.MULTI_TURN
+
+    session_id: str | None = Field(
+        None, description="Unique identifier for the conversation session"
+    )
+    turns: list[SingleTurn] = Field(
+        ..., description="List of turns in the conversation"
+    )
+
+    @model_validator(mode="after")
+    def validate_turns_not_empty(self) -> "MultiTurn":
+        """Ensure at least one turn is provided"""
+        if not self.turns:
+            raise ValueError("At least one turn must be provided")
+        return self
+
+
+class RandomPool(AIPerfBaseModel):
+    """Defines the schema for random pool data entry.
+
+    The random pool custom dataset
+      - supports multi-modal data (e.g. text, image, audio, video)
+      - supports client-side batching for each data (e.g. batch size > 1)
+      - supports named fields for each modality (e.g. text_field_a, text_field_b, etc.)
+      - DOES NOT support multi-turn or its features (e.g. delay, sessions, etc.)
+    """
+
+    type: Literal[CustomDatasetType.RANDOM_POOL] = CustomDatasetType.RANDOM_POOL
+
+    text: str | None = Field(None, description="Simple text string content")
+    texts: list[str] | list[Text] | None = Field(
+        None,
+        description="List of text strings or Text objects format",
+    )
+    image: str | None = Field(None, description="Simple image string content")
+    images: list[str] | list[Image] | None = Field(
+        None,
+        description="List of image strings or Image objects format",
+    )
+    audio: str | None = Field(None, description="Simple audio string content")
+    audios: list[str] | list[Audio] | None = Field(
+        None,
+        description="List of audio strings or Audio objects format",
+    )
+    video: str | None = Field(
+        None,
+        description="Simple video string content. Can be a URL, local file path, or base64 encoded data URL.",
+    )
+    videos: list[str] | list[Video] | None = Field(
+        None,
+        description="List of video strings or Video objects format",
+    )
+
+    @model_validator(mode="after")
+    def validate_mutually_exclusive_fields(self) -> "RandomPool":
+        """Ensure mutually exclusive fields are not set together"""
+        if self.text and self.texts:
+            raise ValueError("text and texts cannot be set together")
+        if self.image and self.images:
+            raise ValueError("image and images cannot be set together")
+        if self.audio and self.audios:
+            raise ValueError("audio and audios cannot be set together")
+        if self.video and self.videos:
+            raise ValueError("video and videos cannot be set together")
+        return self
+
+    @model_validator(mode="after")
+    def validate_at_least_one_modality(self) -> "RandomPool":
+        """Ensure at least one modality is provided"""
+        if not _has_any_modality(self):
+            raise ValueError("At least one modality must be provided")
+        return self
+
+
+class MooncakeTrace(AIPerfBaseModel):
+    """Defines the schema for Mooncake trace data.
+
+    See https://github.com/kvcache-ai/Mooncake for more details.
+
+    Supports four input modes (exactly one required):
+    - input_length: Synthetic text generated from token count (optionally with hash_ids)
+    - text_input: Literal text string sent as the prompt
+    - messages: List of OpenAI-compatible message dicts sent directly to the API
+    - payload: Complete pre-built API request payload sent verbatim through the transport
+
+    Examples:
+    - Minimal: {"input_length": 10, "hash_ids": [123]}
+    - With input_length: {"input_length": 10, "output_length": 4}
+    - With text_input: {"text_input": "Hello world", "output_length": 4}
+    - With messages: {"messages": [{"role": "user", "content": "Hello"}], "output_length": 4}
+    - With payload: {"payload": {"prompt": "Hello", "max_tokens": 50}, "timestamp": 1000}
+    - With timestamp and hash ID: {"timestamp": 1000, "input_length": 10, "hash_ids": [123]}
+    """
+
+    type: Literal[CustomDatasetType.MOONCAKE_TRACE] = CustomDatasetType.MOONCAKE_TRACE
+    input_length: int | None = Field(
+        None,
+        description="The input sequence length of a request. Required if text_input and messages are not provided.",
+    )
+    text_input: str | None = Field(
+        None,
+        description="The actual text input for the request.",
+    )
+    messages: list[dict[str, Any]] | None = Field(
+        None,
+        description="List of OpenAI-compatible message dicts (each must have a 'role' key) sent directly to the API.",
+    )
+    tools: list[dict[str, Any]] | None = Field(
+        None,
+        description="List of OpenAI-compatible tool definitions. Only allowed when 'messages' is provided.",
+    )
+    payload: dict[str, Any] | None = Field(
+        None,
+        description="Complete pre-built API request payload sent verbatim "
+        "to the transport. Bypasses all endpoint formatting. Cannot be "
+        "combined with other input modes.",
+    )
+
+    # Optional fields
+    output_length: int | None = Field(
+        None, description="The output sequence length of a request"
+    )
+    hash_ids: list[int] | None = Field(None, description="The hash ids of a request")
+    timestamp: int | float | None = Field(
+        None,
+        description="The timestamp of a request in milliseconds. Supports floating point, but scheduling accuracy is at the millisecond level.",
+    )
+    delay: int | float | None = Field(
+        None,
+        description="Amount of milliseconds to wait before sending the turn. Supports floating point, but scheduling accuracy is at the millisecond level.",
+    )
+    session_id: str | None = Field(
+        None, description="Unique identifier for the conversation session"
+    )
+    extra: dict[str, Any] | None = Field(
+        default=None,
+        description="Per-turn extra fields shallow-merged into the request body at dispatch time. Keys override formatter defaults on collision.",
+    )
+
+    @model_validator(mode="after")
+    def validate_input(self) -> "MooncakeTrace":
+        """Validate that exactly one input mode is provided."""
+        input_modes = [
+            self.input_length is not None,
+            self.text_input is not None,
+            self.messages is not None,
+            self.payload is not None,
+        ]
+        input_mode_count = sum(input_modes)
+        if input_mode_count == 0:
+            raise ValueError(
+                "Exactly one of 'input_length', 'text_input', 'messages', or 'payload' must be provided"
+            )
+        if input_mode_count > 1:
+            raise ValueError(
+                "'input_length', 'text_input', 'messages', and 'payload' are mutually exclusive. Use only one of them."
+            )
+
+        if self.hash_ids is not None and self.input_length is None:
+            raise ValueError(
+                "'hash_ids' is only allowed when 'input_length' is provided, not when 'text_input', 'messages', or 'payload' are provided"
+            )
+
+        return self
+
+    @model_validator(mode="after")
+    def validate_payload(self) -> "MooncakeTrace":
+        """Validate the payload field is non-empty when provided."""
+        if self.payload is not None and not self.payload:
+            raise ValueError("'payload' must be a non-empty dict")
+        return self
+
+    @model_validator(mode="after")
+    def validate_messages(self) -> "MooncakeTrace":
+        """Validate the messages and tools field structure."""
+        if self.tools is not None:
+            if self.messages is None:
+                raise ValueError("'tools' is only allowed when 'messages' is provided")
+            if not self.tools:
+                raise ValueError("'tools' must be a non-empty list")
+        if self.messages is not None:
+            validate_chat_messages(self.messages)
+        return self
+
+
+class BailianTrace(AIPerfBaseModel):
+    """Defines the schema for Alibaba Bailian trace data.
+
+    See https://github.com/alibaba-edu/qwen-bailian-usagetraces-anon for the
+    upstream dataset and full documentation.
+
+    Each entry represents a single request in a conversation chain. Multi-turn
+    conversations are linked via ``chat_id`` and ``parent_chat_id``: entries
+    sharing the same root ``chat_id`` (reachable through ``parent_chat_id``)
+    belong to the same session and are ordered by ``turn``.
+
+    Important: Bailian traces use a block size of 16 tokens per salted SipHash
+    block.  Use ``--isl-block-size 16`` when using this format (this is set
+    automatically in CLI flows).
+
+    Examples:
+    - Root request:  ``{"chat_id": 159, "parent_chat_id": -1, "timestamp": 61.114, "input_length": 521, "output_length": 132, "type": "text", "turn": 1, "hash_ids": [1089, 1090, 1091]}``
+    - Follow-up:     ``{"chat_id": 160, "parent_chat_id": 159, "timestamp": 62.5, "input_length": 400, "output_length": 80, "type": "text", "turn": 2, "hash_ids": [1089, 1090]}``
+
+    Note:
+    The ``type`` field in Bailian JSONL is the request type (text/search/image/file),
+    not the dataset type. Use ``--custom-dataset-type bailian_trace`` when loading
+    this format.
+    """
+
+    model_config = ConfigDict(populate_by_name=True)
+
+    chat_id: int = Field(description="Randomized chat identifier")
+    parent_chat_id: int = Field(
+        default=-1,
+        description="Parent chat ID for multi-turn conversation chains. -1 indicates a root request.",
+    )
+    timestamp: float = Field(
+        description="Seconds since request arrival. Converted to milliseconds internally.",
+    )
+    input_length: int = Field(description="Input token count")
+    output_length: int = Field(description="Output token count")
+    request_type: str = Field(
+        default="",
+        alias="type",
+        description="Request type from the trace (text/search/image/file). Aliased from 'type' in JSONL.",
+    )
+    turn: int = Field(default=1, description="Conversation turn number")
+    hash_ids: list[int] = Field(
+        default_factory=list,
+        description="Salted SipHash block IDs (16 tokens per block)",
+    )
+
+
+class BurstGPTTrace(AIPerfBaseModel):
+    """Defines the schema for BurstGPT real-world LLM traffic trace data.
+
+    See https://github.com/HPMLL/BurstGPT for the upstream dataset.
+
+    Each row prescribes request/response token counts; no prompt text is stored —
+    AIPerf synthesizes prompts of the prescribed length. Each row is treated as
+    an independent single-turn request; session IDs are assigned automatically.
+
+    Timestamps are seconds since the start of the trace and are converted to
+    milliseconds internally.
+    """
+
+    timestamp: float = Field(
+        description="Seconds since the start of the trace. Converted to milliseconds internally.",
+    )
+    input_length: int = Field(description="Input token count (Request tokens)")
+    output_length: int = Field(description="Output token count (Response tokens)")
+
+
+class RawPayload(AIPerfBaseModel):
+    """A single raw API request payload for verbatim replay.
+
+    On-disk schema for ``--input-type raw_payload`` (loaded by
+    ``RawPayloadDatasetLoader``); the parsed payload becomes
+    ``Turn.raw_payload``, which ``RawEndpoint`` (or any endpoint) ships
+    verbatim. Distinct from ``RawRecordInfo``, which is the export-side
+    record produced by ``raw_record_writer_processor``.
+    """
+
+    payload: dict[str, Any] = Field(description="Complete API request payload.")
+
+
+class InputsJsonSession(AIPerfBaseModel):
+    """A session from the InputsFile format with pre-formatted payloads."""
+
+    session_id: str = Field(description="Session ID of the conversation.")
+    payloads: list[dict[str, Any]] = Field(
+        min_length=1, description="Ordered list of per-turn payloads."
+    )
+
+
+class SageMakerDataCaptureTrace(AIPerfBaseModel):
+    """Trace entry parsed from a SageMaker Data Capture JSONL record.
+
+    SageMaker Data Capture records every inference request and response from
+    real-time endpoints to S3 as JSONL files. This model represents a single
+    parsed record with the request messages and token counts extracted from
+    the captured payloads.
+
+    Only OpenAI-compatible chat endpoints are supported (payload must contain
+    a ``messages`` array).
+
+    See https://docs.aws.amazon.com/sagemaker/latest/dg/model-monitor-data-capture-endpoint.html
+
+    Example source JSONL record::
+
+        {"captureData": {"endpointInput": {"data": "{\"messages\":[{\"role\":\"user\",\"content\":\"Hello\"}],\"max_tokens\":50}", "encoding": "JSON"}, "endpointOutput": {"data": "{\"usage\":{\"prompt_tokens\":12,\"completion_tokens\":8}}", "encoding": "JSON"}}, "eventMetadata": {"eventId": "abc-123", "inferenceTime": "2026-04-29T00:03:18Z"}, "eventVersion": "0"}
+
+    Resulting parsed instance::
+
+        SageMakerDataCaptureTrace(
+            timestamp=1777420998000.0,
+            input_length=12,
+            output_length=50,
+            messages=[{"role": "user", "content": "Hello"}],
+            event_id="abc-123",
+        )
+    """
+
+    timestamp: float = Field(
+        description="Request arrival time in milliseconds (converted from ISO 8601 inferenceTime).",
+    )
+    input_length: int | None = Field(
+        None,
+        description="Input token count from usage.prompt_tokens in the captured response.",
+    )
+    output_length: int | None = Field(
+        None,
+        description="Output token limit from max_tokens in the captured request.",
+    )
+    messages: list[dict[str, Any]] = Field(
+        description="OpenAI-compatible messages array extracted from the captured request payload.",
+    )
+    tools: list[dict[str, Any]] | None = Field(
+        None,
+        description="OpenAI-compatible tool definitions from the captured request payload.",
+    )
+    event_id: str | None = Field(
+        None,
+        description="Original SageMaker eventId UUID for traceability.",
+    )
+
+
+if TYPE_CHECKING:
+    _CustomDatasetBound = (
+        SingleTurn
+        | MultiTurn
+        | RandomPool
+        | MooncakeTrace
+        | BailianTrace
+        | BasetenTrace
+        | BurstGPTTrace
+        | RawPayload
+        | InputsJsonSession
+        | SageMakerDataCaptureTrace
+    )
+else:
+    _CustomDatasetBound = AIPerfBaseModel
+
+CustomDatasetT = TypeVar("CustomDatasetT", bound=_CustomDatasetBound)
+"""A union type of all custom data types."""
